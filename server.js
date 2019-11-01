@@ -19,11 +19,11 @@ mongoose.connect(process.env.db_url,
 );
 const db = mongoose.connection;
 db.on('error', (error) => console.error.bind(console, 'connection error:'));
-db.once('open', () => console.log('connnected'));
+db.once('open', () => console.log('connnection succesful'));
 
 
 // Listen to PORT
-app.listen(process.env.port, () => console.log(`Connected to port ${process.env.port} `));
+app.listen(process.env.PORT || process.env.port, () => console.log(`Connected to port ${process.env.port} `));
 
 
 // Body Parser middleware
