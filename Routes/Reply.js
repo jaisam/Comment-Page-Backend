@@ -16,15 +16,21 @@ router.post('/', checkAuthorization ,async (req, res, next) => {
     try {
         console.log('inside reply post');
         var user = await User.findOne({ _id : req.userData.userId });
-        console.log('user', user);
+        console.log('user : ', user);
 
+        console.log(user.firstName + ' ' + user.userData.lastName);
+        console.log(user.company);
+        console.log(req.body.description);
+        
         const reply = new Reply({
             userName: user.firstName + ' ' + user.userData.lastName,
             userImage: user.company,
             description: req.body.description
         });
+        console.log('reply : ',reply);
+
         const savedReply = await reply.save();
-        console.log('savedReply', savedReply);
+        console.log('savedReply : ', savedReply);
 
         const updatedComment = await Comment.updateOne(
             {
@@ -36,12 +42,14 @@ router.post('/', checkAuthorization ,async (req, res, next) => {
                 }
             }
         );
-        console.log('updatedComment', updatedComment);
+        console.log('updatedComment : ', updatedComment);
 
         //check if true,then only send json
+        console.log('savedReply : ', savedReply);
         res.json(savedReply);
     }
     catch (error) {
+        console.log(error);
         res.status(400).json({ msg: error.msg });
     }
 });
@@ -169,7 +177,7 @@ router.patch('/incrementVote/:replyId', checkAuthorization , async (req, res, ne
         }
     }
     catch (error) {
-        res.status(400).json({ msg: error.msg });
+        res.status(400).json({ msg: error.msg }); 
     }
 });
 //[end] Increments upvote/downvote of reply by checking propertyName sent in through HttpParams()

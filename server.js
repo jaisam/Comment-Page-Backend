@@ -1,6 +1,7 @@
 // Require modules/models using require keyword ofExpress
 const express = require('express');
 const mongoose = require('mongoose');
+const morgan = require('morgan');
 const cors = require('cors');
 require('dotenv').config();
 
@@ -27,6 +28,7 @@ app.listen(process.env.PORT || process.env.port, () => console.log(`Connected to
 
 
 // Body Parser middleware
+app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cors());
