@@ -14,20 +14,16 @@ const User = require('../Models/User');
 //[start] Adds a new reply and updated replyId into comment on whom reply is done.
 router.post('/', checkAuthorization ,async (req, res, next) => {
     try {
-        console.log('inside reply post');
+        // console.log('inside reply post');
         var user = await User.findOne({ _id : req.userData.userId });
         console.log('user : ', user);
 
-        console.log(user.firstName + ' ' + user.userData.lastName);
-        console.log(user.company);
-        console.log(req.body.description);
-        
         const reply = new Reply({
-            userName: user.firstName + ' ' + user.userData.lastName,
+            userName: user.firstName + ' ' + user.lastName,
             userImage: user.company,
             description: req.body.description
         });
-        console.log('reply : ',reply);
+        console.log('reply : ', reply);
 
         const savedReply = await reply.save();
         console.log('savedReply : ', savedReply);
@@ -48,7 +44,7 @@ router.post('/', checkAuthorization ,async (req, res, next) => {
         console.log('savedReply : ', savedReply);
         res.json(savedReply);
     }
-    catch (error) {
+    catch(error) {
         console.log(error);
         res.status(400).json({ msg: error.msg });
     }
